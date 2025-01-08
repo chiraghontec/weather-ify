@@ -3,8 +3,7 @@ import React from 'react';
 function Login(props) {
 
   const handleLoginClick = () => {
-    // Logic to handle login and get access token
-    const accessToken = 'yourAccessToken';  // This should be received from your backend after successful login
+    const accessToken = 'access_token';  // Replace this with the actual token from Spotify
     props.onLogin(accessToken);  // Pass the token to parent component (App.js)
   };
 

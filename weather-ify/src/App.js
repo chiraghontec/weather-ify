@@ -1,32 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import WebPlayback from './WebPlayback';  // Import the WebPlayback component
-import Login from './Login';  // Import the Login component
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import WebPlayback from './WebPlayback';
+import Login from './Login';
 
 function App() {
   const [token, setToken] = useState('');
 
-  // Check for the token in localStorage or set token
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      setToken(storedToken);
+    const hash = window.location.hash.substring(1);
+    const params = new URLSearchParams(hash);
+    const token = params.get('access_token');
+    if (token) {
+      setToken(token);
     }
   }, []);
 
-  // Function to set token after login
-  const handleLogin = (receivedToken) => {
-    setToken(receivedToken);
-    localStorage.setItem('token', receivedToken); // Save token in localStorage for persistence
+  // Function to handle the login and set the token
+  const handleLogin = (accessToken) => {
+    setToken(accessToken);
   };
 
   return (
     <>
-      {token === '' ? (
-        <Login onLogin={handleLogin} />  // Pass the handleLogin function to Login component
-      ) : (
-        <WebPlayback token={token} />  // Pass the token to WebPlayback
-      )}
+      {token ? <WebPlayback token={token} /> : <Login onLogin={handleLogin} />}
     </>
   );
 }
