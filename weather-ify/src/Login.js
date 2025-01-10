@@ -1,10 +1,19 @@
 import React from 'react';
 
-function Login(props) {
-
+function Login() {
   const handleLoginClick = () => {
-    const accessToken = 'access_token';  // Replace this with the actual token from Spotify
-    props.onLogin(accessToken);  // Pass the token to parent component (App.js)
+    const scopes = [
+      'user-read-private',
+      'user-read-email',
+      'playlist-read-private',
+      'playlist-read-collaborative',
+    ];
+
+    const authUrl = `https://accounts.spotify.com/authorize?client_id=891fc8f02522471b9db2b5974cac49b0&response_type=token&redirect_uri=${encodeURIComponent(
+      'http://localhost:3000'
+    )}&scope=${encodeURIComponent(scopes.join(' '))}`;
+
+    window.location.href = authUrl; // Redirect the user to Spotify's login page
   };
 
   return (

@@ -109,6 +109,27 @@ app.get('/refresh_token', (req, res) => {
   });
 });
 
+app.get('/spotify-search', (req, res) => {
+  const { token, query } = req.query;
+
+  const options = {
+    url: `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=playlist`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    json: true,
+  };
+
+  request.get(options, (error, response, body) => {
+    if (error) {
+      return res.status(500).send(error);
+    }
+    res.send(body);
+  });
+});
+
+
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
